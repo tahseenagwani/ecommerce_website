@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import Category from './components/Category';
 
 function App() {
-  const [results,setResults]=useState([]);
-
+  const [products,setProducts]=useState([]);
+const  [categories,setCategories]=useState([])
   useEffect(()=>  
   {
     fetch("http://localhost:3001/categories")
@@ -13,14 +12,24 @@ function App() {
     .then(data=>{
 
       console.log(data);
-      setResults(data)
+      setCategories(data)
     })
   },[])
 
+const handleCategoryClick=(id)=>{
+  fetch("http://localhost:3001/products?catId=")
+  .then(response=>response.json())
+  .then(data=>{
 
+    console.log(data);
+    setProducts(data)
+  })
+
+
+}
   const rederCategories=()=>{
-    return results.map(d=> 
-      <Category key={d.id} id={d.id} title={d.title}/>
+    return categories.map(d=> 
+      <Category key={d.id} id={d.id} title={d.title} onCategoryClick={()=>handleCategoryClick(d.id)}/>
 
     );
 
@@ -34,7 +43,7 @@ function App() {
 
 <section>   
    <nav>
-   {rederCategories()}
+   {categories && rederCategories()}
     </nav>
     <article>
       main area
