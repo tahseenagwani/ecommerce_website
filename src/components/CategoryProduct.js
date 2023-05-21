@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const CategoryProduct = ({ title, image, specs,features,price,stock,id}) => {
     return (
-        <article key={id} id={id}>
+        <article key={id}>
             <div className='category-product-title'>
                 <Link to={`products/${id}`}>{title}</Link>
             </div>
