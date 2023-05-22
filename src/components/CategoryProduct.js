@@ -1,8 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link ,Navigate,useNavigate} from 'react-router-dom'
 
 
 const CategoryProduct = ({ title, image, specs,features,price,stock,id}) => {
+    const navigate=useNavigate();
     return (
         <article key={id}>
             <div className='category-product-title'>
@@ -50,7 +51,7 @@ const CategoryProduct = ({ title, image, specs,features,price,stock,id}) => {
 
 <div className='category-product-action'>
 
-    <button>View Product</button>
+    <button onClick={()=>navigate(`products/${id}`)}>View Product</button>
     <button>Add a Basket</button>
 </div>
             </aside>
