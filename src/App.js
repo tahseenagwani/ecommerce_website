@@ -1,8 +1,10 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import Category from './components/Category';
+// import Category from './components/Category';
 import { getCategories, getProducts } from './fetcher';
 import CategoryProduct from './components/CategoryProduct';
+import { Link } from 'react-router-dom';
+
 function App() {
   const [products, setProducts] = useState({ errorMessage: '', data: [] });
   const [categories, setCategories] = useState({ errorMessage: '', data: [] })
@@ -27,20 +29,15 @@ function App() {
   }
   const rederCategories = () => {
     return categories.data.map(d =>
-      <Category key={d.id} id={d.id} title={d.title} onCategoryClick={() => handleCategoryClick(d.id)} />
+
+      <li key={d.id}><Link to={`categories/${d.id}`}>{d.title} </Link></li>
 
     );
 
   }
 
 
-  const renderProducts = () => {
-   
-    return products.data.map(d =>
-      <CategoryProduct key={d.id} {...d} >{d.title}</CategoryProduct>
-    );
-
-  }
+  
   return (
     <>
       <header>
@@ -53,12 +50,6 @@ function App() {
           {categories.errorMessage && <div>{categories.errorMessage}</div>}
           {categories.data && rederCategories()}
         </nav>
-        <article >
-          {products.errorMessage && <div>{products.errorMessage}</div>}
-          <h1>Products</h1>
-
-          {products && renderProducts()}
-        </article>
       </section>
       <footer>
         footer

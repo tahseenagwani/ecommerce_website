@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProductDetail from './components/ProductDetail';
 import CheckOut from './components/CheckOut';
 import Basket from './components/basket'
+import Category from './components/Category';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
     <Route path='basket' element={ <Basket />}/>
     <Route path='checkout' element={ <CheckOut />}/>
     <Route path='products/:productId' element={ <ProductDetail/>}/>
+    <Route path='categories/:categoryId' element={ <Category/>}/>
 
     </Routes>
     
