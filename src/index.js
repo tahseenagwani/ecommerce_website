@@ -3,28 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProductDetail from './components/ProductDetail';
-import CheckOut from './components/CheckOut';
-import Basket from './components/basket'
-import Category from './components/Category';
-
+import CartContext from './contexts/cartContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-    <Routes>
-    <Route path='/' element={ <App />}/>
-    <Route path='basket' element={ <Basket />}/>
-    <Route path='checkout' element={ <CheckOut />}/>
-    <Route path='products/:productId' element={ <ProductDetail/>}/>
-    <Route path='categories/:categoryId' element={ <Category/>}/>
 
-    </Routes>
-    
-    </BrowserRouter>
-   
-  </React.StrictMode>
+  <React.StrictMode>
+    <CartContext>
+
+    <App/>
+    </CartContext>
+ 
+ </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

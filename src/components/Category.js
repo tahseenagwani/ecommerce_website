@@ -6,7 +6,7 @@ import CategoryProduct from './CategoryProduct';
 const Category = () => {
     const {categoryId}=useParams()
     const [products,setProduct]=useState({errorMessage: '', data: [],});
-
+console.log("category page")
     useEffect(()=>{
         const fetchData=async()=>{
         const responseObject= await getProducts(categoryId);
@@ -14,7 +14,7 @@ const Category = () => {
         console.log(products.data)
         };
         fetchData();
-        },[]);
+        },[categoryId]);
 
 
     const renderProducts = () => {
