@@ -1,28 +1,61 @@
 import React from 'react'
-import { createContext } from 'react'
- 
+import { createContext ,useReducer} from 'react'
+ import { CartReducer } from './cartReducer';
 
 export const CartContext= createContext();
 
 const initialState={cartItems:[]}
 
-const cartContext = ({children}) => {  
+const CartContextProvider = ({children}) => {  
   
-  const addProducts=(payload)=>{
- debugger;
+  const[state,dispatch]=useReducer(CartReducer,initialState);
+  
+  const addProduct=(payload)=>{
+    dispatch({type:"ADD",payload})
+  
+
+  }
+  const removeProduct=(payload)=>{
+    dispatch({type:"REMOVE",payload})
+  
 
   }
 
+  const increaseQuantity=(payload)=>{
+    dispatch({type:"INCQTY",payload})
+  
+
+  }
+  const decreaseQuantity=(payload)=>{
+    dispatch({type:"DECQTY",payload})
+  
+
+  }
+  const clearBasket=(payload)=>{
+    dispatch({type:"CLEAR",payload})
+  
+
+  }
+const getItems=()=>{
+
+  return state.cartItems;
+}
+
   const constextValues={
- addProducts,
- ...initialState
+ addProduct,
+ removeProduct,
+ decreaseQuantity,
+ increaseQuantity,
+ getItems,
+ clearBasket,
+ ...state
 
   }
   return (
-   <CartContext.Provider value={initialState}>
+   <CartContext.Provider value={constextValues}>
     {children}
    </CartContext.Provider>
   )
 }
 
-export default cartContext
+export default CartContextProvider

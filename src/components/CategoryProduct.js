@@ -13,10 +13,11 @@ const CategoryProduct = ({
     price,
     stock,
 }) => {
+
+  
     const navigate = useNavigate();
     // const { addProduct } = useContext(CartContext);
-const cartContext=useContext(CartContext);
-const {addProducts}=cartContext
+const {addProduct}=useContext(CartContext);
     return (
         <ProductInfoArticle>
             <ProductTitle>
@@ -67,7 +68,7 @@ const {addProducts}=cartContext
                         View Product
                     </ProductInfoActionButton>
                     asdadasdadasd
-                    <ProductInfoActionButton onClick={() => addProducts({id, title, price})}>Add to Basket</ProductInfoActionButton>
+                    <ProductInfoActionButton onClick={() => addProduct({id, title, price})}>Add to Basket</ProductInfoActionButton>
                 </ProductInfoAction>
             </aside>
         </ProductInfoArticle>

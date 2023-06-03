@@ -30,6 +30,7 @@ const Layout = ({categories}) => {
     </section>
     <footer>
     <Link to="/">Home Page</Link>
+    | <Link to="basket">Home Page</Link>
     </footer>
   </>
   )
