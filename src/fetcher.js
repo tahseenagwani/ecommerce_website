@@ -6,25 +6,26 @@ const fetcher = async (url) => {
 
     try {
         const response = await fetch(BASE_URL + url)
-        console.log(response);
+       
         if (!response.ok) {
             throw new Error(`HTTP ERROR ${response.status}`);
         }
         const responsedata = await response.json()
         responseObject.errorMessage = ''
         responseObject.data = responsedata;
+        return responseObject
     }
     catch (err) {
         responseObject.errorMessage = err.message;
-
+        return responseObject
     }
-    return responseObject
+    
 }
 
 export const getCategories = () => {
     return fetcher("/categories")
 }
-export const getProducts = (id) => {
+export const getProducts = id => {
     return fetcher("/products?catId=" + id)
 }
 

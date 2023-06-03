@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getProductById } from '../fetcher';
 import styled from "styled-components";
+import { CartContext } from '../contexts/cartContext';
 
 const ProductDetail = () => {
+    const {addProduct}=useContext(CartContext);
 const [product,setProduct]=useState({errorMessage: '', data: {},});
 const {productId}=useParams();  
 
-const createMarkup=()=>{
-return { __html:product.data?.description };
 
-}
 useEffect(()=>{
 const fetchData=async()=>{
 const responseObject= await getProductById(productId);
 setProduct(responseObject)
 }
 fetchData();
-},[productId])
+},[productId]);
+
+const createMarkup=()=>{
+    return { __html:product.data?.description };
+    
+    }
 return (
     <ProductInfoArticle>
         <ProductTitle>{product.data.title}</ProductTitle>
@@ -72,13 +76,13 @@ return (
 
             <ProductInfoAction>
                 <ProductInfoActionButton
-                    // onClick={() =>
-                    //     addProduct({
-                    //         id: product.data.id,
-                    //         title: product.data.title,
-                    //         price: product.data.price,
-                    //     })
-                    // }
+                    onClick={() =>
+                        addProduct({
+                            id: product.data.id,
+                            title: product.data.title,
+                            price: product.data.price,
+                        })
+                    }
                 >
                     Add to Basket
                 </ProductInfoActionButton>

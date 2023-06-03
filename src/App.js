@@ -1,49 +1,63 @@
-import './App.css';
-import { useEffect, useState } from 'react';
-// import Category from './components/Category';
-import { getCategories} from './fetcher';
-import React from 'react';
-import './index.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProductDetail from './components/ProductDetail';
-import CheckOut from './components/CheckOut';
-import Basket from './components/basket'
-import Category from './components/Category';
-import Layout from './components/Layout';
-import Home from './components/Home';
+import "./App.css";
+import React, { useState } from "react";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { getCategories } from "./fetcher";
+
+import ProductDetail from "./components/ProductDetail";
+import Basket from "./components/basket";
+import Checkout from "./components/CheckOut";
+import Category from "./components/Category";
+import Home from "./components/Home";
+// import OrderConfirmation from "./components/order";
+import Layout from "../src/components/Layout"
+// import SearchResults from "./components/searchResults";
+
 function App() {
-  // const [products, setProducts] = useState({ errorMessage: '', data: [] });
-  const [categories, setCategories] = useState({ errorMessage: '', data: [] })
-  useEffect(() => {
-    const fetchData = async () => {
-      const responseObject = await getCategories()
+    const [categories, setCategories] = useState({
+        errorMessage: "",
+        data: [],
+    });
 
-      setCategories(responseObject)
-      console.log(responseObject)
-    }
-    fetchData();
-  }, [])
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const responseObject = await getCategories();
+            setCategories(responseObject);
+        };
+        fetchData();
+    }, []);
 
-  
-  
-
-
-  
-  return (
-    
-    <BrowserRouter>
-    <Routes>
-    <Route path='/' element={ <Layout categories={categories} />}>
-        <Route index element={<Home/>}></Route>
-      <Route path='basket' element={ <Basket />}/>
-      <Route path='checkout' element={ <CheckOut />}/>
-      <Route path='products/:productId' element={ <ProductDetail/>}/>
-      <Route path='categories/:categoryId' element={ <Category/>}/>
-    </Route>
-    </Routes>
-    
-    </BrowserRouter>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <Layout
+                                categories={categories}
+                            />
+                        }
+                    >
+                        <Route index element={<Home />} />
+                        <Route path="basket" element={<Basket />} />
+                        <Route path="checkout" element={<Checkout />} />
+                        {/* <Route path="orderconfirmation" element={<OrderConfirmation />} /> */}
+                        {/* <Route path="search" element={<SearchResults /> } /> */}
+                        <Route
+                            path="categories/:categoryId"
+                            element={<Category />}
+                        />
+                        <Route
+                            path="products/:productId"
+                            element={<ProductDetail />}
+                        />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;

@@ -18,7 +18,8 @@ const CategoryProduct = ({
     const navigate = useNavigate();
     // const { addProduct } = useContext(CartContext);
 const {addProduct}=useContext(CartContext);
-    return (
+   
+return (
         <ProductInfoArticle>
             <ProductTitle>
                 <Link to={`/products/${id}`}>{title}</Link>
@@ -67,7 +68,6 @@ const {addProduct}=useContext(CartContext);
                     <ProductInfoActionButton onClick={() => navigate(`/products/${id}`)}>
                         View Product
                     </ProductInfoActionButton>
-                    asdadasdadasd
                     <ProductInfoActionButton onClick={() => addProduct({id, title, price})}>Add to Basket</ProductInfoActionButton>
                 </ProductInfoAction>
             </aside>

@@ -4,37 +4,38 @@ import { getProducts } from '../fetcher'
 import CategoryProduct from './CategoryProduct';
 
 const Category = () => {
+    
+    const [products,setProducts]=useState({errorMessage: '', data: [],});
     const {categoryId}=useParams()
-    const [products,setProduct]=useState({errorMessage: '', data: [],});
-console.log("category page")
+    
     useEffect(()=>{
         const fetchData=async()=>{
         const responseObject= await getProducts(categoryId);
-        setProduct(responseObject)
-        console.log(products.data)
+        setProducts(responseObject)
+      
         };
         fetchData();
         },[categoryId]);
 
 
     const renderProducts = () => {
-            return products.data?.map((d) =>(
+            return products.data.map((d) =>(
                   <CategoryProduct key={d.id} {...d} >{d.title}</CategoryProduct>
                 ));
             
-              }
+              };
 
         
     return (
         <div>
-        {products.errorMessage && <div>{products.errorMessage}</div>}
-        <h1>Products</h1>
+        {products.errorMessage && <div>Error:{products.errorMessage}</div>}
+       
         <div>
         {products && renderProducts()}
         </div>
         
         </div>
-    )
-}
+    );
+};
 
-export default Category
+export default Category;
