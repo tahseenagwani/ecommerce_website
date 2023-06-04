@@ -1,73 +1,81 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { styled } from 'styled-components';
-import { CartContext } from '../contexts/cartContext';
-import { Link } from 'react-router-dom';
-import { DownIcon, TrashIcon, UpIcon } from './icons';
+import React, { useContext, useState, useEffect } from "react";
+import styled from "styled-components";
+
+import { useNavigate, Link } from "react-router-dom";
+
+import { CartContext } from "../contexts/cartContext";
+
+import { TrashIcon, UpIcon, DownIcon } from "./icons";
+
+import { formatNumber } from "../utils";
 
 const Basket = () => {
- const [cartItems,setcartItems]=useState([])
-  const {getItems,clearBasket,increaseQuantity,decreaseQuantity,removeProduct}=useContext(CartContext);
- 
-  useEffect(()=>{
-   
-    setcartItems(getItems());
+    const [cartItems, setCartItems] = useState([]);
 
-  },[getItems])
- 
-  const renderCart=()=>{
+    const navigate = useNavigate();
+    const { getCartItems, removeProduct, increaseQuantity, decreaseQuantity, clearBasket } = useContext(CartContext);
     
-    
-    if(cartItems.length > 0){
-      return cartItems.map((p)=>(
-      <React.Fragment key={p.id}>
-        <div>
-          <Link to={`products/${p.id}`}>{p.title}</Link>   
-          </div>
-        <BasketQty>
-          {p.quantity}
-          <UpIcon width={20} onClick={()=>setcartItems( increaseQuantity({id:p.id}))}></UpIcon>
-          <DownIcon width={20} onClick={()=>setcartItems( decreaseQuantity({id:p.id}))}></DownIcon>
-          <TrashIcon width={20} onClick={()=>setcartItems( removeProduct({id:p.id}))}></TrashIcon>
-        </BasketQty>
-        <BasketPrice>
-        &pound;{p.price}
-        </BasketPrice>
-        </React.Fragment>
-       ) )
 
-    }
-  else{
-    return <div>the basket is empty</div>
-  }
-  }
-  
-  const renderTotal=()=>{
-     const cartItems=getItems()
-     const total=cartItems.reduce((total,item)=>(total + item.price * item.quantity),0);
-    return total;
+    useEffect(() => {
+        setCartItems(getCartItems());
+    }, [getCartItems]);
+
+    const renderCart = () => {
+        if (cartItems.length > 0) {
+            return cartItems.map((p) => (
+                <React.Fragment key={p.id}>
+                    <div>
+                        <Link to={`/products/${p.id}`}>{p.title}</Link>
+                    </div>
+                    <BasketQty>
+                        {p.quantity}
+
+                            <UpIcon width={20} onClick={() => setCartItems(increaseQuantity({id: p.id}))}></UpIcon>
+                            <DownIcon width={20} onClick={() => setCartItems(decreaseQuantity({id: p.id}))}></DownIcon>
+                            <TrashIcon
+                                width={20}
+                                onClick={() => setCartItems(removeProduct({ id: p.id }))}
+                            ></TrashIcon>
+
+                    </BasketQty>
+                    <BasketPrice>{formatNumber(p.price)}</BasketPrice>
+                </React.Fragment>
+            ));
+        } else {
+            return <div>The basket is currently empty</div>;
+        }
     };
-  return (
-    <BasketContainer>
-      <BasketTitle>Shopping Basket</BasketTitle>
-      <BasketButton>Checkout</BasketButton>
-      <BasketTable>
-        <BasketHeader>
-        <h4>Item</h4>
-        <h4>Quantity</h4>
-        <h4>Price</h4>
-        </BasketHeader>
-        <BasketHeaderLine/>
-        <BasketHeader>
-          {renderCart()}
-        </BasketHeader>
-        <BasketHeaderLine/>
-         </BasketTable>
-         <BasketButton onClick={()=>setcartItems(clearBasket(cartItems))}> Clear</BasketButton>
-        <BasketTotal>TOTAL :${renderTotal()}</BasketTotal>
-    
-    </BasketContainer>
-  )
-}
+
+    const renderTotal = () => {
+        const cartItems = getCartItems();
+        const total = cartItems.reduce(
+            (total, item) => (total += item.price * item.quantity),
+            0
+        );
+        return total;
+    };
+
+    return (
+        <BasketContainer>
+            <BasketTitle>Shopping Basket</BasketTitle>
+            <BasketButton onClick={() => navigate("/checkout")}>Checkout</BasketButton>
+
+            <BasketTable>
+                <BasketHeader>
+                    <h4>Item</h4>
+                    <h4>Quantity</h4>
+                    <h4>Price</h4>
+                </BasketHeader>
+                <BasketHeaderLine />
+                <BasketHeader>{renderCart()}</BasketHeader>
+                <BasketHeaderLine />
+            </BasketTable>
+
+          <BasketButton onClick={() => setCartItems(clearBasket())}>Clear</BasketButton>
+            <BasketTotal>Total: {formatNumber(renderTotal())}</BasketTotal>
+        </BasketContainer>
+    );
+};
 
 export default Basket;
 
